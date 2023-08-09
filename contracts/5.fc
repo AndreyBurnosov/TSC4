@@ -21,7 +21,7 @@
   
   int first_f = 0;
   int second_f = 1;
-  tuple res = null();
+  tuple res = empty_tuple();
   int i = 1;
   if (k == 0){
     return res;
