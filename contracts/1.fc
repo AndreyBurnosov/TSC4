@@ -1,30 +1,30 @@
 #include "imports/stdlib.fc";
 
-global cell res;
-global int hash_d;
+forall X -> int is_null (X x) asm "ISNULL";
+forall X -> (tuple, ()) push_back (tuple tail, X head) asm "CONS";
+forall X -> (tuple, (X)) pop_back (tuple t) asm "UNCONS";
 
 () recv_internal() {
 }
 
-() dfs(cell tree) impure {
-    if (hash_d == cell_hash(tree)){
-        res = tree;
-    } else {
-        if (slice_refs(tree.begin_parse())){
-            var ds = tree.begin_parse();
-            cell left = ds~load_ref();
-            dfs(left);
-            if (slice_refs(ds)){
-                dfs(ds~load_ref());
-            }
+(cell) find_branch_by_hash(int hash, cell tree) method_id {
+    tuple stack = null();
+
+    stack~push_back(tree);
+
+    while (~ stack.is_null()) {
+        cell c = stack~pop_back();
+
+        if (hash == cell_hash(c)){
+            return c;
+        }
+
+        slice s = c.begin_parse();
+
+        repeat (s.slice_refs()) {
+            stack~push_back(s~load_ref());
         }
     }
-}
 
-(cell) find_branch_by_hash(int hash, cell tree) method_id {
-    res = begin_cell().end_cell();
-    hash_d = hash;
-    dfs(tree);
-    
-    return res;
+    return begin_cell().end_cell();
 }
