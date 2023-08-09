@@ -25,5 +25,6 @@ global int hash_d;
     res = begin_cell().end_cell();
     hash_d = hash;
     dfs(tree);
+    
     return res;
 }
