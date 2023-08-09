@@ -8,13 +8,14 @@ global int hash_d;
 
 () dfs(cell tree) impure {
     if (hash_d == cell_hash(tree)){
-        return tree;
+        res = tree;
     } else {
-        if (~slice_empty?(tree.begin_parse())){
-            cell left = tree.begin_parse()~load_ref();
-            return dfs(left);
-            if (~slice_empty?(tree)){
-                return dfs(tree.load_ref());
+        if (slice_refs(tree.begin_parse())){
+            var ds = tree.begin_parse();
+            cell left = ds~load_ref();
+            dfs(left);
+            if (slice_refs(ds)){
+                dfs(ds~load_ref());
             }
         }
     }
