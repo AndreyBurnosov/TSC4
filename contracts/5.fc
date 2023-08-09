@@ -18,6 +18,25 @@
 
 ;; testable
 (tuple) fibonacci_sequence (int n, int k) method_id {
-  return null();
+  
+  int first_f = 0;
+  int second_f = 1;
+  tuple res = empty_tuple();
+  int i = 1;
+  if (n == 0){
+    res~tpush(0);
+  }
+
+  repeat(n + k - 1) {
+    if (i >= n){
+      res~tpush(second_f);
+    }
+    i += 1;
+    int fird_f = second_f + first_f;
+    first_f = second_f;
+    second_f = fird_f;
+  }
+
+  return res;
 }
 
