@@ -28,7 +28,7 @@
     return res;
   }
   if (n == 0){
-    res~tpush(0);
+    res~tpush(first_f);
   }
 
   repeat(n + k - 1) {
