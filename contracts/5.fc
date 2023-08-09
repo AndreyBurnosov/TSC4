@@ -23,6 +23,9 @@
   int second_f = 1;
   tuple res = empty_tuple();
   int i = 1;
+  if (k == 0){
+    return empty_tuple();
+  }
   if (n == 0){
     res~tpush(0);
   }
