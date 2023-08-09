@@ -22,10 +22,30 @@ int tuple_length (tuple t) asm "TLEN";
 ;; testable
 (tuple) matrix_multiplier(tuple matrixA, tuple matrixB) method_id {
 
-  int m = tuple_length(matrixA);
-  int n = tuple_length(matrixB);
+  tuple res = empty_tuple();
+  int n1 = tuple_length(matrixA);
+  int m1 = tuple_length(matrixB);
+  int n2 = m1;
+  int m2 = tuple_length(matrixB.at(0));
+  int i = 0;
 
+  repeat(n1) {
+    int j = 0;
+    tuple tmp = empty_tuple();
+    repeat(m2){
+      int k = 0;
+      int x = 0;
+      repeat(m1){
+        x += matrixA.at(i).at(k) * matrixB.at(k).at(j);
+        k += 1;
+      }
+      tmp~tpush(x);
+      j += 1;
+    }
+    res~tpush(tmp);
+    i += 1;
+  }
 
-  return null();
+  return res;
 }
 
