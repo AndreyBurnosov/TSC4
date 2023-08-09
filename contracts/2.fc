@@ -1,4 +1,3 @@
-#include "imports/stdlib.fc";
 {-
   TASK 2 - Matrix multiplier
   Write the method that multiplies one matrix by another.
