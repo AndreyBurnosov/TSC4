@@ -13,7 +13,8 @@
   1923063428480944139667114773918309212080528]
 -}
 
-
+() recv_internal() {
+}
 
 ;; testable
 (tuple) fibonacci_sequence (int n, int k) method_id {
@@ -35,11 +36,10 @@
     k -= 1;
   }
 
-  repeat(n / 10){
-    (first_f, second_f) = (first_f * 34 + second_f * 55, first_f * 55 + second_f * 89);
+  repeat(n / 20){
+    (first_f, second_f) = (first_f * 4181 + second_f * 6765, first_f * 6765 + second_f * 10946);
   }
-
-  n %= 10;
+  n %= 20;
   
   n += i;
 
@@ -64,6 +64,3 @@
   return res;
 }
 
-() recv_internal() {
-  ~dump(fibonacci_sequence(10, 2));
-}
