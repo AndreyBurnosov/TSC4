@@ -14,7 +14,6 @@
   The output should be a linked list where the first
   cell ends with ...10100001111, and the second cell starts with 11111000111111...
 
-
 -}
 
 () recv_internal() {
