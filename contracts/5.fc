@@ -21,7 +21,6 @@
   
   int first_f = 1;
   int second_f = 0;
-  int fird_f = 0;
   tuple res = empty_tuple();
   if (k == 0){
     return res;
@@ -32,18 +31,15 @@
   }
 
   repeat(n - 1) {
-    fird_f = second_f + first_f;
-    first_f = second_f;
-    second_f = fird_f;
+    (first_f, second_f) = (second_f, first_f + second_f);
   }
 
   repeat(k) {
-    fird_f = second_f + first_f;
-    first_f = second_f;
-    second_f = fird_f;
+    (first_f, second_f) = (second_f, first_f + second_f);
     res~tpush(second_f);
   }
 
   return res;
 }
+
 
