@@ -37,9 +37,8 @@
   }
 
   repeat(n / 50){
-    (first_f, second_f) = (first_f * 7778742049 + second_f * 12586269025, first_f * 12586269025 + second_f * 20365011074);
+    (first_f, second_f) = (first_f * 514229 + second_f * 832040, first_f * 832040 + second_f * 1346269);
   }
-
   n %= 50;
   
   n += i;
