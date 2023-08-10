@@ -36,10 +36,11 @@
     k -= 1;
   }
 
-  repeat(n / 20){
-    (first_f, second_f) = (first_f * 4181 + second_f * 6765, first_f * 6765 + second_f * 10946);
+  repeat(n / 40){
+    (first_f, second_f) = (first_f * 63245986 + second_f * 102334155, first_f * 102334155 + second_f * 165580141);
   }
-  n %= 20;
+
+  n %= 40;
   
   n += i;
 
