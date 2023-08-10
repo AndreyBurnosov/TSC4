@@ -13,8 +13,6 @@
   1923063428480944139667114773918309212080528]
 -}
 
-forall X -> (tuple, ()) push_back (tuple tail, X head) asm "CONS";
-
 () recv_internal() {
 }
 
@@ -25,23 +23,27 @@ forall X -> (tuple, ()) push_back (tuple tail, X head) asm "CONS";
   int second_f = 0;
   int fird_f = 0;
   tuple res = empty_tuple();
-  int i = 0;
   if (k == 0){
     return res;
   }
   if (n == 0){
-    res~push_back(0);
+    res~tpush(0);
+    k -= 1;
   }
 
-  repeat(n + k - 1) {
-    i += 1;
+  repeat(n - 1) {
     fird_f = second_f + first_f;
     first_f = second_f;
     second_f = fird_f;
-    if (i >= n){
-      res~push_back(second_f);
-    }
+  }
+
+  repeat(k) {
+    fird_f = second_f + first_f;
+    first_f = second_f;
+    second_f = fird_f;
+    res~tpush(second_f);
   }
 
   return res;
 }
+
