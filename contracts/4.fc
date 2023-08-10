@@ -6,16 +6,102 @@
   character should go to the beginning. Return new text encoded in cell.
 -}
 
+forall X -> int is_null (X x) asm "ISNULL";
+forall X -> (tuple, ()) push_back (tuple tail, X head) asm "CONS";
+forall X -> (tuple, (X)) pop_back (tuple t) asm "UNCONS";
+int slice_bits(slice s) asm "SBITS";
+
 () recv_internal() {
 }
 
 ;; testable
 (cell) caesar_cipher_encrypt(int shift, cell text) method_id {
-  return begin_cell().end_cell();
+  shift %= 26;
+  if (shift == 0){
+    return text;
+  }
+  builder res = begin_cell().store_uint(0, 32);
+  slice s = text.begin_parse();
+  s~skip_bits(32);
+  int i = -1;
+
+  while(s.slice_bits() >= 8){
+    int x = s~load_uint(8);
+    if ((x >= 65) & (x <= 90)) | ((x >= 97) & (x <= 122)){
+      x += shift;
+    }
+    res.store_uint(x, 8);
+  }
+
+  tuple stack = empty_tuple();
+  stack~push_back(res);
+
+  while (i){
+    builder b = begin_cell();
+    while(s.slice_bits() >= 8){
+      int x = s~load_uint(8);
+      if ((x >= 65) & (x <= 90)) | ((x >= 97) & (x <= 122)){
+        x += shift;
+      }
+      res.store_uint(x, 8);
+    }
+    stack~push_back(b);
+    if (s.slice_refs_empty?()) {
+      i = 0;
+    }
+  }
+
+  cell a = stack~pop_back().end_cell();
+
+  while (~ stack.is_null()) {
+    a = stack~pop_back().store_ref(a).end_cell();
+  }
+
+  return a;
 }
 
 ;; testable
 (cell) caesar_cipher_decrypt(int shift, cell text) method_id {
-  return begin_cell().end_cell();
-}
+  shift %= 26;
+  if (shift == 0){
+    return text;
+  }
+  builder res = begin_cell().store_uint(0, 32);
+  slice s = text.begin_parse();
+  s~skip_bits(32);
+  int i = -1;
 
+  while(s.slice_bits() >= 8){
+    int x = s~load_uint(8);
+    if ((x >= 65) & (x <= 90)) | ((x >= 97) & (x <= 122)){
+      x += shift;
+    }
+    res.store_uint(x, 8);
+  }
+
+  tuple stack = empty_tuple();
+  stack~push_back(res);
+
+  while (i){
+    builder b = begin_cell();
+    while(s.slice_bits() >= 8){
+      int x = s~load_uint(8);
+      if ((x >= 65) & (x <= 90)) | ((x >= 97) & (x <= 122)){
+        x -= shift;
+      }
+      res.store_uint(x, 8);
+    }
+    stack~push_back(b);
+    if (s.slice_refs_empty?()) {
+      i = 0;
+    }
+  }
+
+  cell a = stack~pop_back().end_cell();
+
+  while (~ stack.is_null()) {
+    a = stack~pop_back().store_ref(a).end_cell();
+  }
+
+  return a;
+}
