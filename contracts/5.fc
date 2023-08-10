@@ -36,11 +36,11 @@
     k -= 1;
   }
 
-  repeat(n / 60){
-    (first_f, second_f) = (first_f * 956722026041 + second_f * 1548008755920, first_f * 1548008755920 + second_f * 2504730781961);
+  repeat(n / 50){
+    (first_f, second_f) = (first_f * 7778742049 + second_f * 12586269025, first_f * 12586269025 + second_f * 20365011074);
   }
 
-  n %= 60;
+  n %= 50;
   
   n += i;
 
