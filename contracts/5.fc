@@ -13,6 +13,8 @@
   1923063428480944139667114773918309212080528]
 -}
 
+forall X -> (tuple, ()) push_back (tuple tail, X head) asm "CONS";
+
 () recv_internal() {
 }
 
@@ -28,7 +30,7 @@
     return res;
   }
   if (n == 0){
-    res~tpush(0);
+    res~push_back(0);
   }
 
   repeat(n + k - 1) {
@@ -37,7 +39,7 @@
     first_f = second_f;
     second_f = fird_f;
     if (i >= n){
-      res~tpush(second_f);
+      res~push_back(second_f);
     }
   }
 
