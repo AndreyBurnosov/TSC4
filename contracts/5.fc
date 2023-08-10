@@ -13,7 +13,8 @@
   1923063428480944139667114773918309212080528]
 -}
 
-forall X -> tuple to_tuple(X) asm "NOP";
+() recv_internal() {
+}
 
 ;; testable
 (tuple) fibonacci_sequence (int n, int k) method_id {
@@ -406,8 +407,4 @@ forall X -> tuple to_tuple(X) asm "NOP";
   }
 
   return res;
-}
-
-() recv_internal() {
-  ~dump(fibonacci_sequence(370, 1));
 }
