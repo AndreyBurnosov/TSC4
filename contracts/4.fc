@@ -63,5 +63,6 @@ int slice_bits(slice s) asm "SBITS";
 
 ;; testable
 (cell) caesar_cipher_decrypt(int shift, cell text) method_id {
+
   return begin_cell().end_cell();
 }
