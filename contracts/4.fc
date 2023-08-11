@@ -17,7 +17,6 @@ int slice_bits(slice s) asm "SBITS";
 
 ;; testable
 (cell) caesar_cipher_encrypt(int shift, cell text) method_id {
-  
   shift %= 26;
   if (shift == 0){
     return text;
