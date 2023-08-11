@@ -75,7 +75,7 @@ int slice_bits(slice s) asm "SBITS";
   while(s.slice_bits() >= 8){
     int x = s~load_uint(8);
     if ((x >= 65) & (x <= 90)) | ((x >= 97) & (x <= 122)){
-      x += shift;
+      x -= shift;
     }
     res.store_uint(x, 8);
   }
