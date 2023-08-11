@@ -67,7 +67,7 @@ jobs:
                       points=$(echo "$problems" | jq -r ".[$i].points")
                       compilationError=$(echo "$problems" | jq -r ".[$i].compilationError")
                       numberOfTests=$(echo "$problems" | jq -r ".[$i].numberOfTests")
-
+                      
                       echo ""
                       echo "Problem #$((i+1)):"
                       echo "Compiled: $compiled"
