@@ -33,6 +33,8 @@ int slice_bits(slice s) asm "SBITS";
   stack~push_back(res);
 
   while (~ s.slice_refs_empty?()){
+    cell v = s~load_ref(); 
+    s = v.begin_parse();
     builder b = begin_cell();
     while(s.slice_bits() >= 8){
       int x = s~load_uint(8);
@@ -44,10 +46,7 @@ int slice_bits(slice s) asm "SBITS";
       b.store_uint(x, 8);
     }
     stack~push_back(b);
-    cell v = s~load_ref(); 
-    s = v.begin_parse();
   }
-
   cell a = stack~pop_back().end_cell();
 
   while (~ stack.is_null()) {
