@@ -1,5 +1,4 @@
-() recv_internal() {
-}
+
 ;; testable
 (tuple) fibonacci_sequence (int n, int k) method_id {
   
@@ -13,8 +12,8 @@
     res~tpush(0);
     k -= 1;
     repeat(k) {
-      (first_f, second_f) = (second_f, first_f + second_f);
       res~tpush(second_f);
+      (first_f, second_f) = (second_f, first_f + second_f);
     }
     return res;
   }
@@ -41,4 +40,7 @@
     res~tpush(second_f);
   }
   return res;
+}
+() recv_internal() {
+  ~dump(fibonacci_sequence (0, 4));
 }
