@@ -32,10 +32,6 @@ int slice_bits(slice s) asm "SBITS";
   tuple stack = null();
   stack~push_back(res);
 
-
-  if (s.slice_refs_empty?()) {
-    i = 0;
-  }
   while (~ s.slice_refs_empty?()){
     builder b = begin_cell();
     while(s.slice_bits() >= 8){
