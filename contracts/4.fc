@@ -18,7 +18,6 @@ int slice_bits(slice s) asm "SBITS";
   builder res = begin_cell().store_uint(0, 32);
   slice s = text.begin_parse();
   s~skip_bits(32);
-  int i = -1;
 
   while(s.slice_bits() >= 8){
     int x = s~load_uint(8);
@@ -30,10 +29,14 @@ int slice_bits(slice s) asm "SBITS";
     res.store_uint(x, 8);
   }
 
-  tuple stack = empty_tuple();
+  tuple stack = null();
   stack~push_back(res);
 
-  while (i){
+
+  if (s.slice_refs_empty?()) {
+    i = 0;
+  }
+  while (~ s.slice_refs_empty?()){
     builder b = begin_cell();
     while(s.slice_bits() >= 8){
       int x = s~load_uint(8);
@@ -45,12 +48,8 @@ int slice_bits(slice s) asm "SBITS";
       b.store_uint(x, 8);
     }
     stack~push_back(b);
-    if (s.slice_refs_empty?()) {
-      i = 0;
-    } else {
-      cell v = s~load_ref(); 
-      s = v.begin_parse();
-    }
+    cell v = s~load_ref(); 
+    s = v.begin_parse();
   }
 
   cell a = stack~pop_back().end_cell();
