@@ -21,7 +21,7 @@ int slice_bits(slice s) asm "SBITS";
   slice s = text.begin_parse();
   s~skip_bits(32);
 
-  while(s.slice_bits() >= 8){
+  repeat(s.slice_bits() / 8){
     int x = s~load_uint(8);
     if (x >= 65) & (x <= 90){
       x = (x - 65 + shift) % 26 + 65;
@@ -36,7 +36,7 @@ int slice_bits(slice s) asm "SBITS";
   while (~ s.slice_refs_empty?()){ 
     s = s~load_ref().begin_parse();
     builder b = begin_cell();
-    while(s.slice_bits() >= 8){
+    repeat(s.slice_bits() / 8){
       int x = s~load_uint(8);
       if (x >= 65) & (x <= 90){
         x = (x - 65 + shift) % 26 + 65;
@@ -59,13 +59,18 @@ int slice_bits(slice s) asm "SBITS";
 ;; testable
 (cell) caesar_cipher_encrypt(int shift, cell text) method_id {
   shift %= 26;
-
+  if (shift == 0){
+    return text;
+  }
   return solve(shift,text);
 }
 
 ;; testable
 (cell) caesar_cipher_decrypt(int shift, cell text) method_id {
   shift %= 26;
+  if (shift == 0){
+    return text;
+  }
 
   return solve(26 - shift,text);
 }
