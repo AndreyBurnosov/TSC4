@@ -1,4 +1,5 @@
-
+() recv_internal() {
+}
 ;; testable
 (tuple) fibonacci_sequence (int n, int k) method_id {
   
@@ -18,11 +19,11 @@
     return res;
   }
 
-  repeat(n / 40){
-    (first_f, second_f) = (first_f * 63245986 + second_f * 102334155, first_f * 102334155 + second_f * 165580141);
+  repeat(n / 70){
+    (first_f, second_f) = (first_f * 117669030460994 + second_f * 190392490709135, first_f * 190392490709135 + second_f * 308061521170129);
   }
 
-  n %= 40;
+  n %= 70;
 
   if (n == 1){
     (first_f, second_f) = (second_f - first_f, first_f);
@@ -40,7 +41,4 @@
     res~tpush(second_f);
   }
   return res;
-}
-() recv_internal() {
-  ~dump(fibonacci_sequence (0, 4));
 }
