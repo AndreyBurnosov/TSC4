@@ -47,6 +47,9 @@ int slice_bits(slice s) asm "SBITS";
     stack~push_back(b);
     if (s.slice_refs_empty?()) {
       i = 0;
+    } else {
+      cell v = s~load_ref(); 
+      s = v.begin_parse();
     }
   }
 
