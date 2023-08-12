@@ -30,9 +30,15 @@ int slice_bits(slice s) asm "SBITS";
     }
     res~store_uint(x, 8);
   }
+
+  if (s.slice_refs_empty?()){
+    return res.end_cell();
+  }
+  
   tuple stack = null();
   stack~push_back(res);
 
+  
   while (~ s.slice_refs_empty?()){ 
     s = s~load_ref().begin_parse();
     res = begin_cell();
