@@ -9,24 +9,26 @@ forall X -> (tuple, (X)) pop_back (tuple t) asm "UNCONS";
 
     if (cell_hash(tree) == hash){
         return tree;
-    }
-    tuple stack = null();
+    } else {
+        tuple stack = null();
     
-    stack~push_back(tree);
+        stack~push_back(tree);
 
-    while (~ stack.is_null()) {
-        tree = stack~pop_back();
+        while (~ stack.is_null()) {
+            tree = stack~pop_back();
 
-        if (hash == cell_hash(tree)){
-            return tree;
-        }
+            if (hash == cell_hash(tree)){
+                return tree;
+            }
 
-        slice s = tree.begin_parse();
+            slice s = tree.begin_parse();
 
-        repeat (s.slice_refs()) {
-            stack~push_back(s~load_ref());
+            repeat (s.slice_refs()) {
+                stack~push_back(s~load_ref());
+            }
         }
     }
+    
 
     return begin_cell().end_cell();
 }
