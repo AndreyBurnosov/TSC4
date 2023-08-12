@@ -19,11 +19,11 @@
     return res;
   }
 
-  repeat(n / 70){
-    (first_f, second_f) = (first_f * 117669030460994 + second_f * 190392490709135, first_f * 190392490709135 + second_f * 308061521170129);
+  repeat(n / 40){
+    (first_f, second_f) = (first_f * 63245986 + second_f * 102334155, first_f * 102334155 + second_f * 165580141);
   }
 
-  n %= 70;
+  n %= 40;
 
   if (n == 1){
     (first_f, second_f) = (second_f - first_f, first_f);

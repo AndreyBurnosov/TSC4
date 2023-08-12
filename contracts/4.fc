@@ -6,13 +6,15 @@
   character should go to the beginning. Return new text encoded in cell.
 -}
 
+() recv_internal() {
+}
+
 forall X -> int is_null (X x) asm "ISNULL";
 forall X -> (tuple, ()) push_back (tuple tail, X head) asm "CONS";
 forall X -> (tuple, (X)) pop_back (tuple t) asm "UNCONS";
 int slice_bits(slice s) asm "SBITS";
 
-() recv_internal() {
-}
+
 
 (cell) solve(int shift, cell text) {
   builder res = begin_cell().store_uint(0, 32);
@@ -31,9 +33,8 @@ int slice_bits(slice s) asm "SBITS";
   tuple stack = null();
   stack~push_back(res);
 
-  while (~ s.slice_refs_empty?()){
-    cell v = s~load_ref(); 
-    s = v.begin_parse();
+  while (~ s.slice_refs_empty?()){ 
+    s = s~load_ref().begin_parse();
     builder b = begin_cell();
     while(s.slice_bits() >= 8){
       int x = s~load_uint(8);
