@@ -11,8 +11,12 @@
   }
   if (n == 0){
     res~tpush(0);
-    n += 1;
     k -= 1;
+    repeat(k) {
+      (first_f, second_f) = (second_f, first_f + second_f);
+      res~tpush(second_f);
+    }
+    return res;
   }
 
   repeat(n / 40){
