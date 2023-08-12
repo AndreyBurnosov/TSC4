@@ -5,12 +5,7 @@
   
   int first_f = 0;
   int second_f = 1;
-  int i = 0;
   tuple res = empty_tuple();
-  if (n == 370){
-    n -= 1;
-    i += 1;
-  }
   if (k == 0){
     return res;
   }
@@ -26,8 +21,7 @@
 
   n %= 40;
 
-  n += i;
-   if (n == 1){
+  if (n == 1){
     (first_f, second_f) = (second_f - first_f, first_f);
   }
   if (n == 0){
