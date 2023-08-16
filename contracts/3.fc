@@ -17,7 +17,6 @@
 -}
 
 () recv_internal() {
-
 }
 
 forall X -> int is_null (X x) asm "ISNULL";
