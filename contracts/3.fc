@@ -98,18 +98,18 @@ int builder_bits(builder b) asm "BBITS";
   }
   int x = 0;
   slice chunk_r = chunk.end_cell().begin_parse();
-  if (chunk_r.slice_bits() == bit){
-    (_, x) = chunk_r.load_uint(bit);
-    if (x == flag){
-      res~store_uint(value, bit_val);
-    } else {
-      res~store_uint(0, 1);
-    }
-  } else {
-    int l = chunk_r.slice_bits();
-    (_, x) = chunk_r.load_uint(l);
-    res~store_uint(x, l);
-  }
+  ;; if (chunk_r.slice_bits() == bit){
+  ;;   (_, x) = chunk_r.load_uint(bit);
+  ;;   if (x == flag){
+  ;;     res~store_uint(value, bit_val);
+  ;;   } else {
+  ;;     res~store_uint(x, bit);
+  ;;   }
+  ;; } else {
+  ;;   int l = chunk_r.slice_bits();
+  ;;   (_, x) = chunk_r.load_uint(l);
+  ;;   res~store_uint(x, l);
+  ;; }
 
   cell a = res.end_cell();
 
