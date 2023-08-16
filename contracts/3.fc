@@ -119,4 +119,3 @@ int builder_bits(builder b) asm "BBITS";
 
   return a;
 }
-
