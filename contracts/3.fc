@@ -91,13 +91,11 @@ int builder_bits(builder b) asm "BBITS";
     chunk = begin_cell();
     (_, x) = chunk_r.skip_bits(v).load_uint((l + bit) - v);
     chunk~store_uint(x, (l + bit) - v);
-    if (res.builder_bits() > 767){
+    if (res.builder_bits() > 500){
       stack~push_back(res);
       res = begin_cell();
     }
   }
-  stack~push_back(res);
-  res = begin_cell();
   int x = 0;
   slice chunk_r = chunk.end_cell().begin_parse();
   if (chunk.builder_bits() == bit){
@@ -110,7 +108,7 @@ int builder_bits(builder b) asm "BBITS";
   } else {
     int l = chunk_r.slice_bits();
     (_, x) = chunk_r.load_uint(l);
-    res~store_uint(x, l);
+    res~store_uint(x, bit);
   }
 
   cell a = res.end_cell();
