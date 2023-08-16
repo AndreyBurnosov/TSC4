@@ -40,7 +40,7 @@ int builder_bits(builder b) asm "BBITS";
 ;; testable
 (cell) find_and_replace(int flag, int value, cell linked_list) method_id {
 
-  
+  return begin_cell().end_cell();
   tuple stack = null();
   slice s = linked_list.begin_parse();
   builder chunk = begin_cell();
