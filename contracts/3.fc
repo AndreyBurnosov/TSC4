@@ -101,14 +101,14 @@ int builder_bits(builder b) asm "BBITS";
   if (chunk.builder_bits() == bit){
     (_, x) = chunk_r.load_uint(bit);
     if (x == flag){
-      res~store_uint(value, bit_val);
+      res~store_uint(0, bit_val);
     } else {
       res~store_uint(x, bit);
     }
   } else {
     int l = chunk_r.slice_bits();
     (_, x) = chunk_r.load_uint(l);
-    res~store_uint(x, bit);
+    res~store_uint(x, l);
   }
 
   cell a = res.end_cell();
