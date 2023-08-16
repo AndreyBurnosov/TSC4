@@ -40,7 +40,7 @@ int builder_bits(builder b) asm "BBITS";
 ;; testable
 (cell) find_and_replace(int flag, int value, cell linked_list) method_id {
 
-  return begin_cell().end_cell();
+  
   tuple stack = null();
   slice s = linked_list.begin_parse();
   builder chunk = begin_cell();
@@ -71,7 +71,7 @@ int builder_bits(builder b) asm "BBITS";
     int v = 0;
     int l = chunk.builder_bits() - bit;
     int x = 0;
-    while(i < l){
+    while(i <= l){
       (_, x) = chunk_r.skip_bits(i).load_uint(bit);
       if (x == flag){
         (_, x) = chunk_r.skip_bits(v).load_uint(i - v);
@@ -98,18 +98,18 @@ int builder_bits(builder b) asm "BBITS";
   }
   int x = 0;
   slice chunk_r = chunk.end_cell().begin_parse();
-  ;; if (chunk_r.slice_bits() == bit){
-  ;;   (_, x) = chunk_r.load_uint(bit);
-  ;;   if (x == flag){
-  ;;     res~store_uint(value, bit_val);
-  ;;   } else {
-  ;;     res~store_uint(x, bit);
-  ;;   }
-  ;; } else {
-  ;;   int l = chunk_r.slice_bits();
-  ;;   (_, x) = chunk_r.load_uint(l);
-  ;;   res~store_uint(x, l);
-  ;; }
+  if (chunk_r.slice_bits() == bit){
+    (_, x) = chunk_r.load_uint(bit);
+    if (x == flag){
+      res~store_uint(value, bit_val);
+    } else {
+      res~store_uint(x, bit);
+    }
+  } else {
+    int l = chunk_r.slice_bits();
+    (_, x) = chunk_r.load_uint(l);
+    res~store_uint(x, l);
+  }
 
   cell a = res.end_cell();
 
