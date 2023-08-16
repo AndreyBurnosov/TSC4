@@ -27,25 +27,13 @@ int slice_bits(slice s) asm "SBITS";
 int builder_bits(builder b) asm "BBITS";
 
 (int) len(int v){
+  int i = 1;
   int x = 1;
-  int i = 0;
   while(x <= v){
-    x *= 10;
     i += 1;
+    x *= 2;
   }
   return i;
-}
-
-(int) to_int(int v, int l){
-  int count = 1;
-  int res = 0;
-  repeat(l){
-    int x = v % 10;
-    res += count * x;
-    count *= 2;
-    v /= 10;
-  }
-  return res;
 }
 
 ;; testable
@@ -58,8 +46,7 @@ int builder_bits(builder b) asm "BBITS";
   builder res = begin_cell();
   int f? = true;
   int bit = len(flag);
-  flag = to_int(flag, bit);
-  value = to_int(value, bit);
+  int bit_val = len(value);
 
   while(f?){
     while ((chunk.builder_bits() < 256) & f?){
@@ -89,7 +76,7 @@ int builder_bits(builder b) asm "BBITS";
         (_, x) = chunk_r.skip_bits(v).load_uint(i - v);
         res~store_uint(x, i - v);
         i += bit;
-        res~store_uint(value, bit);
+        res~store_uint(value, bit_val);
         v = i;
       } else {
         i += 1;
