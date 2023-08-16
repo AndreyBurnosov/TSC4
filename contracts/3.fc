@@ -106,8 +106,9 @@ int builder_bits(builder b) asm "BBITS";
       res~store_uint(x, bit);
     }
   } else {
-    (_, x) = chunk_r.load_uint(bit);
-    res~store_uint(x, bit);
+    int l = chunk_r.slice_bits();
+    (_, x) = chunk_r.load_uint(l);
+    res~store_uint(x, l);
   }
 
   cell a = res.end_cell();
