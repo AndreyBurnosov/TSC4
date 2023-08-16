@@ -102,8 +102,6 @@ int builder_bits(builder b) asm "BBITS";
     (_, x) = chunk_r.load_uint(bit);
     if (x == flag){
       res~store_uint(value, bit_val);
-    } else {
-      res~store_uint(x, bit);
     }
   } else {
     int l = chunk_r.slice_bits();
