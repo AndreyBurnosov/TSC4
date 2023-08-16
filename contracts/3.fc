@@ -91,14 +91,14 @@ int builder_bits(builder b) asm "BBITS";
     chunk = begin_cell();
     (_, x) = chunk_r.skip_bits(v).load_uint((l + bit) - v);
     chunk~store_uint(x, (l + bit) - v);
-    if (res.builder_bits() > 500){
+    if (res.builder_bits() > 767){
       stack~push_back(res);
       res = begin_cell();
     }
   }
   int x = 0;
   slice chunk_r = chunk.end_cell().begin_parse();
-  if (chunk.builder_bits() == bit){
+  if (chunk_r.slice_bits() == bit){
     (_, x) = chunk_r.load_uint(bit);
     if (x == flag){
       res~store_uint(value, bit_val);
