@@ -108,7 +108,7 @@ int builder_bits(builder b) asm "BBITS";
   if (chunk_r.slice_bits() == bit){
     (_, x) = chunk_r.load_uint(bit);
     if (x == flag){
-      if (res.builder_bits() + (l - v) > 1023){
+      if (res.builder_bits() + l - v > 1023){
         stack~push_back(res);
         res = begin_cell();
       }
