@@ -20,14 +20,20 @@ int slice_bits(slice s) asm "SBITS";
   builder res = begin_cell().store_uint(0, 32);
   slice s = text.begin_parse();
   s~skip_bits(32);
-
-  repeat(s.slice_bits() / 8){
-    int x = s~load_uint(8);
+  tuple tmp = empty_tuple();
+  int i = 0;
+  repeat(255){
+    x = i;
     if (x >= 65) & (x <= 90){
       x = (x - 65 + shift) % 26 + 65;
     } elseif (x >= 97) & (x <= 122){
       x = (x - 97 + shift) % 26 + 97;
     }
+    tmp~tpush(x);
+  }
+  repeat(s.slice_bits() / 8){
+    int x = s~load_uint(8);
+    x = tmp.at(x);
     res~store_uint(x, 8);
   }
 
