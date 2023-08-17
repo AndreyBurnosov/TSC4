@@ -23,7 +23,7 @@ int slice_bits(slice s) asm "SBITS";
   tuple tmp = empty_tuple();
   int i = 0;
   repeat(255){
-    x = i;
+    int x = i;
     if (x >= 65) & (x <= 90){
       x = (x - 65 + shift) % 26 + 65;
     } elseif (x >= 97) & (x <= 122){
