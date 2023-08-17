@@ -1,44 +1,23 @@
 () recv_internal() {
 }
+
+(tuple) res(int n, int k) asm """
+  DUP // n k k
+  1 SETGLOB // n k
+  ADD // n + k
+  DEC // n - 1
+  DEC // n - 1
+  0 PUSHINT // n first_f
+  1 PUSHINT // n first_f second_f
+  ROT // first_f second_f n
+  REPEAT:<{ 
+    DUP2 // first_f second_f first_f second_f
+    ADD // first_f second_f fird_f
+   }>
+  1 GETGLOB // ... k
+  TUPLEVAR // tuple
+""";
 ;; testable
 (tuple) fibonacci_sequence (int n, int k) method_id {
-  
-  int first_f = 0;
-  int second_f = 1;
-  tuple res = empty_tuple();
-  if (k == 0){
-    return res;
-  }
-  if (n == 0){
-    res~tpush(0);
-    k -= 1;
-    repeat(k) {
-      res~tpush(second_f);
-      (first_f, second_f) = (second_f, first_f + second_f);
-    }
-    return res;
-  }
-
-  repeat(n / 40){
-    (first_f, second_f) = (first_f * 63245986 + second_f * 102334155, first_f * 102334155 + second_f * 165580141);
-  }
-
-  n %= 40;
-
-  if (n == 1){
-    (first_f, second_f) = (second_f - first_f, first_f);
-  }
-  if (n == 0){
-    (first_f, second_f) = (second_f - first_f, first_f);
-    (first_f, second_f) = (second_f - first_f, first_f);
-  }
-  
-  repeat(n - 2) {
-    (first_f, second_f) = (second_f, first_f + second_f);
-  }
-  repeat(k) {
-    (first_f, second_f) = (second_f, first_f + second_f);
-    res~tpush(second_f);
-  }
-  return res;
+  return res(n, k);
 }
