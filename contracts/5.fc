@@ -16,6 +16,8 @@
    }>
   1 GETGLOB // ... k
   TUPLEVAR // tuple
+  1 PUSHINT // tuple 1
+  ONLYTOPX
 """;
 ;; testable
 (tuple) fibonacci_sequence (int n, int k) method_id {
