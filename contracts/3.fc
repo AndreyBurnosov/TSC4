@@ -26,15 +26,7 @@ forall X -> (tuple, (X)) pop_back (tuple t) asm "UNCONS";
 int slice_bits(slice s) asm "SBITS";
 int builder_bits(builder b) asm "BBITS";
 
-(int) len(int v){
-  int i = 1;
-  int x = 1;
-  while(x <= v){
-    i += 1;
-    x *= 2;
-  }
-  return i - 1;
-}
+(int) len(int v) asm "UBITSIZE";
 
 ;; testable
 (cell) find_and_replace(int flag, int value, cell linked_list) method_id {
