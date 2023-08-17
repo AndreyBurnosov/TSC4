@@ -74,8 +74,16 @@ int builder_bits(builder b) asm "BBITS";
       (_, x) = chunk_r.skip_bits(i).load_uint(bit);
       if (x == flag){
         (_, x) = chunk_r.skip_bits(v).load_uint(i - v);
+        if (res.builder_bits() + (i - v) > 1023){
+          stack~push_back(res);
+          res = begin_cell();
+        }
         res~store_uint(x, i - v);
         i += bit;
+        if (res.builder_bits() + bit_val > 1023){
+          stack~push_back(res);
+          res = begin_cell();
+        }
         res~store_uint(value, bit_val);
         v = i;
       } else {
@@ -84,29 +92,41 @@ int builder_bits(builder b) asm "BBITS";
     }
     if (v < l){
       (_, x) = chunk_r.skip_bits(v).load_uint(l - v);
+      if (res.builder_bits() + (l - v) > 1023){
+        stack~push_back(res);
+        res = begin_cell();
+      }
       res~store_uint(x, l - v);
       v = l;
     }
     chunk = begin_cell();
     (_, x) = chunk_r.skip_bits(v).load_uint((l + bit) - v);
     chunk~store_uint(x, (l + bit) - v);
-    if (res.builder_bits() > 767){
-      stack~push_back(res);
-      res = begin_cell();
-    }
   }
   int x = 0;
   slice chunk_r = chunk.end_cell().begin_parse();
   if (chunk_r.slice_bits() == bit){
     (_, x) = chunk_r.load_uint(bit);
     if (x == flag){
+      if (res.builder_bits() + (l - v) > 1023){
+        stack~push_back(res);
+        res = begin_cell();
+      }
       res~store_uint(value, bit_val);
     } else {
+      if (res.builder_bits() + bit > 1023){
+        stack~push_back(res);
+        res = begin_cell();
+      }
       res~store_uint(x, bit);
     }
   } else {
     int l = chunk_r.slice_bits();
     (_, x) = chunk_r.load_uint(l);
+    if (res.builder_bits() + l > 1023){
+      stack~push_back(res);
+      res = begin_cell();
+    }
     res~store_uint(x, l);
   }
 
