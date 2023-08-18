@@ -95,6 +95,8 @@ int builder_bits(builder b) asm "BBITS";
     (_, x) = chunk_r.skip_bits(v).load_uint((l + bit) - v);
     chunk~store_uint(x, (l + bit) - v);
   }
+  slice chunk_r = chunk.end_cell().begin_parse();
+  int x = 0;
   int l = chunk_r.slice_bits();
   (_, x) = chunk_r.load_uint(l);
   if (res.builder_bits() + l > 1023){
