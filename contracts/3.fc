@@ -61,16 +61,13 @@ int builder_bits(builder b) asm "BBITS";
     int i = 0;
     int v = 0;
     int l = chunk.builder_bits() - bit;
-    int x = 0;
     while(i <= l){
-      (_, x) = chunk_r.skip_bits(i).load_uint(bit);
-      if (x == flag){
-        (_, x) = chunk_r.skip_bits(v).load_uint(i - v);
+      if (chunk_r.skip_bits(i).preload_uint(bit) == flag){
         if (res.builder_bits() + (i - v) + bit_val > 1023){
           stack~push_back(res);
           res = begin_cell();
         }
-        res~store_uint(x, i - v);
+        res~store_uint(chunk_r.skip_bits(v).preload_uint(i - v), i - v);
         i += bit;
         res~store_uint(value, bit_val);
         v = i;
@@ -79,27 +76,23 @@ int builder_bits(builder b) asm "BBITS";
       }
     }
     if (v < l){
-      (_, x) = chunk_r.skip_bits(v).load_uint(l - v);
       if (res.builder_bits() + (l - v) > 1023){
         stack~push_back(res);
         res = begin_cell();
       }
-      res~store_uint(x, l - v);
+      res~store_uint(chunk_r.skip_bits(v).preload_uint(l - v), l - v);
       v = l;
     }
     chunk = begin_cell();
-    (_, x) = chunk_r.skip_bits(v).load_uint((l + bit) - v);
-    chunk~store_uint(x, (l + bit) - v);
+    chunk~store_uint(chunk_r.skip_bits(v).preload_uint((l + bit) - v), (l + bit) - v);
   }
   slice chunk_r = chunk.end_cell().begin_parse();
-  int x = 0;
   int l = chunk_r.slice_bits();
-  (_, x) = chunk_r.load_uint(l);
   if (res.builder_bits() + l > 1023){
     stack~push_back(res);
     res = begin_cell();
   }
-  res~store_uint(x, l);
+  res~store_uint(chunk_r.preload_uint(l), l);
 
   cell a = res.end_cell();
 

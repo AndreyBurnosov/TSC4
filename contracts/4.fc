@@ -22,7 +22,6 @@ int slice_bits(slice s) asm "SBITS";
   s~skip_bits(32);
   tuple tmp = empty_tuple();
   int i = 0;
-  int f? = true;
   repeat(65){
     tmp~tpush(i);
     i += 1;
@@ -43,22 +42,29 @@ int slice_bits(slice s) asm "SBITS";
     tmp~tpush(i);
     i += 1;
   }
+  repeat(s.slice_bits() / 8){
+    int x = s~load_uint(8);
+    x = tmp.at(x);
+    res~store_uint(x, 8);
+  }
+
+  if (s.slice_refs_empty?()){
+    return res.end_cell();
+  }
   
   tuple stack = null();
+  stack~push_back(res);
 
-  while (f?){ 
+  
+  while (~ s.slice_refs_empty?()){ 
+    s = s~load_ref().begin_parse();
+    res = begin_cell();
     repeat(s.slice_bits() / 8){
       int x = s~load_uint(8);
       x = tmp.at(x);
       res~store_uint(x, 8);
     }
     stack~push_back(res);
-    if (s.slice_refs_empty?()){
-      f? = false;
-    } else {
-      s = s~load_ref().begin_parse();
-      res = begin_cell();
-    }
   }
   cell a = stack~pop_back().end_cell();
 
