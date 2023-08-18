@@ -57,8 +57,8 @@ int slice_bits(slice s) asm "SBITS";
     } else {
       s = s~load_ref().begin_parse();
     }
-    res = begin_cell();
     stack~push_back(res);
+    res = begin_cell();
   }
   cell a = stack~pop_back().end_cell();
 
