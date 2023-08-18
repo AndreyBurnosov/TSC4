@@ -66,16 +66,12 @@ int builder_bits(builder b) asm "BBITS";
       (_, x) = chunk_r.skip_bits(i).load_uint(bit);
       if (x == flag){
         (_, x) = chunk_r.skip_bits(v).load_uint(i - v);
-        if (res.builder_bits() + (i - v) > 1023){
+        if (res.builder_bits() + (i - v) + bit_val > 1023){
           stack~push_back(res);
           res = begin_cell();
         }
         res~store_uint(x, i - v);
         i += bit;
-        if (res.builder_bits() + bit_val > 1023){
-          stack~push_back(res);
-          res = begin_cell();
-        }
         res~store_uint(value, bit_val);
         v = i;
       } else {
