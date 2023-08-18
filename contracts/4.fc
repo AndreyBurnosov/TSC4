@@ -45,9 +45,7 @@ int slice_bits(slice s) asm "SBITS";
   }
   
   tuple stack = null();
-  stack~push_back(res);
 
-  
   while (f?){ 
     repeat(s.slice_bits() / 8){
       int x = s~load_uint(8);
