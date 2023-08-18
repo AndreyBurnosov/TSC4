@@ -52,13 +52,13 @@ int slice_bits(slice s) asm "SBITS";
       x = tmp.at(x);
       res~store_uint(x, 8);
     }
+    stack~push_back(res);
     if (s.slice_refs_empty?()){
       f? = false;
     } else {
       s = s~load_ref().begin_parse();
       res = begin_cell();
     }
-    stack~push_back(res);
   }
   cell a = stack~pop_back().end_cell();
 
